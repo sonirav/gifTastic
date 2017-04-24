@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>GIFTASTIC</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+	<style type="text/css">
+button{
+	margin: 2px;
+	margin-top:3px;
+		}
+
+#top-heading{
+	width = 100%; 
+	background-color: darkblue; 
+	color: white; 
+	border: 3px; 
+	border-color: white; 
+	border-style: solid;
+		}
+div{
+			
+	border: 2px; 
+	border-color: blue; 
+	border-radius: 20px;
+	border-style: solid; 
+		   }
+form{ 
+			margin-left: 2px;
+			 }
+input {
+	margin: 10px;
+	border-radius: 20px;
+	margin-top: 1px; 
+		}
+body{
+	background-color: lightblue;
+		}
+.gify{	
+	border-radius: 25px;
+	position: relative;
+    float: left;
+    width:  200px;
+    height: 200px;
+    text-align: bottom;
+    background-position: 50% 50%;
+    background-repeat:   no-repeat;
+    background-size:     cover;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    margin-left: 20px;
+
+    
+		}
+
+#buttons-view{
+	float: left; 
+	width: 100%; 
+	overflow-y: scroll;
+	height: 12vh;
+	padding-left: 12px; 
+	}
+#gifs-view{
+	width:100%; 
+	overflow-y: scroll; 
+	height: 72vh; 
+	float: left;
+}
+p{
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+    font-size: 18px;
+}
+
+
+
+	</style>
+
+</head>
+
+<body >
+
+ <!-- <div class="container"> -->
+ <div id="top-heading"  >
+		<h1 class="Jumbotron"><center>GIFTASTIC</center></h1>
+	</div>
+
+		<!-- Rendered buttons will get dumped here  -->
+
+		<div id="buttons-view"  ></div>
+	<div style="float: left; width: 100% height:30vh; ">
+			<form id="gif-form">
+				<label for="gif-input" style="border-radius: 25px; margin-top: 5px;"><b>Button Name</b></label>
+				<input type="text" id="gif-input">
+
+				<!-- Button triggers new gif to be added -->
+				<input class="btn btn-default-sm" id="add-gif"  type="submit" value="Add a Gif Button" >
+			</form>
+	</div><br>
+	
+		<!-- gifs will get dumped Dere -->
+		<div id="gifs-view" ><img class="gify"></img></div>
+
+
+<script type="text/javascript">
+ 			var datastate;
+			var dataanimate;
+			var datastill;
+						// Initial array of gifs
+			var gifs = ["Panda", "Mouse", "Birds", "Lion", "Monkeys", "Man", "Woman"];
+
+$(document).ready(function(){
+// extracting gifs from Giphy.com limit is 30 
+ function displaygifInfo() {
+ 				var p_rate;
+				var mygif= $(this).attr("data-name");;
+				var queryURL = "http://api.giphy.com/v1/gifs/search?q=" +
+				mygif + "&api_key=dc6zaTOxFJmzC&limit=30";
+
+				// Creates AJAX call for the specific gif button being clicked
+ 
+			$.ajax({
+					url: queryURL,
+					method: 'GET'
+					
+				}).done (function(response){
+						var gifDiv ;
+						var results = response.data;
+
+				for (var i = 0; i < results.length; i++)
+				{
+	
+							gifDiv = $("<div style= 'text-align:left; width:210px; position: relative; border-style: none; float:left;'></div>");datastill=results[i].images.fixed_height_still.url;
+
+							dataanimate=results[i].images.fixed_height.url;
+							var datastate="still"; 
+							var ratingnew=results[i].rating;
+							var ratingnew=ratingnew.trim();
+							var personImage = $("<img class ='gify'  datastate='still'  src="+ datastill+" dataanimate="+ dataanimate+" datastill="+datastill+">"+ratingnew+"</img>");
+							
+							personImage.attr("src", results[i].images.fixed_height_still.url);
+						//	p_rate =$('.gify').html("<div >"+results[i].rating+"</div>");
+//console.log(p_rate);							
+				//		gifDiv.prepend(p_rate);
+
+				//		$("#gify").prepend(gifDiv);
+				//			$("#gifs-view").prepend(p_rate[i])
+							gifDiv.prepend(personImage);
+							$("#gifs-view").prepend(gifDiv);
+	
+					}
+				});
+
+				
+			}
+
+	
+
+			function renderButtons() {
+				// Deletes the gifs prior to adding new gifs
+				// (this is necessary otherwise you will have repeat buttons)
+				$("#buttons-view").empty();
+				// Loops through the array of gifs
+				for (var i = 0; i < gifs.length; i++) {
+					var a1 = $("<button class='btn btn-primary btn-lg'>");
+					// Adds a class of gif to our button
+					a1.addClass("gifbut");
+					// Added a data-attribute
+					a1.attr("data-name", gifs[i]);
+					// Provided the initial button text
+					a1.text(gifs[i]);
+					// Added the button to the buttons-view div
+					$("#buttons-view").append(a1);
+				}
+			}
+
+		// This function handles events where the add gif button is clicked
+					$("#add-gif").on("click", function(event) {
+						event.preventDefault();
+		// This line of code will grab the input from the textbox
+						var gifval = $("#gif-input").val().trim();
+
+		// The gif from the textbox is then added to our array preventing empty button
+						if (gifval!='')
+						{
+						gifs.push(gifval);
+						}
+
+	// Calling renderButtons which handles the processing of our gif array
+					renderButtons();
+				});
+
+			// Adding click event listeners to all elements with a class of "gifbut"
+			$(document).on("click", ".gifbut", displaygifInfo);
+
+			// Calling the renderButtons function to display the intial buttons
+			renderButtons();
+	
+
+
+  });
+
+ $(document).on("click", ".gify",function (){
+		//	alert("i am clicked");
+			
+			// ============== FILL IN CODE HERE FOR STEP TWO =========================
+
+			// CODE GOES HERE
+			var state   = $(this).attr('datastate');
+			var animate =$(this).attr('dataanimate');
+			var stillpic =$(this).attr('datastill');
+
+
+			if (state=='still')
+				{
+					$(this).attr('src',animate);
+					$(this).attr('datastate','animate');
+
+				}
+				 else
+				{
+					$(this).attr('src',stillpic);
+					$(this).attr('datastate','still');
+				}
+
+		});
+
+		</script>
+	</div>
+</body>
+
+</html>
