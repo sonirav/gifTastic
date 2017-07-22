@@ -6,6 +6,8 @@
     "start": "harp server --port $PORT"
   },
   "dependencies": {
-    "harp": "*"
+    "harp": "*",
+    "html5": "*",
+    "Ajax":"*"
   }
 }
