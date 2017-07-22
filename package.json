@@ -1,13 +1,13 @@
 {
-  "name": "my-static-site",
+  "name": "giftastic1",
   "version": "1.0.0",
   "description": "This will load any static html site",
   "scripts": {
     "start": "harp server --port $PORT"
   },
   "dependencies": {
+    "Ajax": "*",
+    "ajax": "0.0.4",
     "harp": "*",
-    "html5": "*",
-    "Ajax":"*"
-  }
+      }
 }
