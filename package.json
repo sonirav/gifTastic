@@ -1,18 +1,30 @@
 {
-  "name": "giftastic1",
+  "name": "raviProfile",
   "version": "1.0.0",
-  "description": "This will load any static html site",
+  "description": "-Node \r -Express  \r -Jquery",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "author": "Ravinder Soni",
   "license": "ISC",
-  "default" : "index.php",
-  "bugs": {
-    "url": "https://github.com/sonirav/giftastic/issues"
-  },
   "dependencies": {
-    "ajax": "0.0.4"
-      },
- "engines": {
-  "node": "7.7.3",
-  "npm": "4.1.02"
-}
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "express-handlebars": "^2.0.1",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "jquery": "^3.2.1",
+    "method-override": "^2.3.5",
+    "node": "0.0.0",
+    "nodemailer": "^4.0.1",
+    "path": "^0.12.7",
+    "url": "^0.11.0"
+  },
+  "engines": {
+    "node": "7.7.3",
+    "npm": "4.1.02"
+  }
 }
