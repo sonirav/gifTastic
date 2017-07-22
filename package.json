@@ -4,6 +4,7 @@
   "description": "This will load any static html site",
   "author": "Ravinder Soni",
   "license": "ISC",
+  "default" : "index.php",
   "bugs": {
     "url": "https://github.com/sonirav/giftastic/issues"
   },
